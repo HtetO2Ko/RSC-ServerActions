@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import fs from 'node:fs/promises';
 import UsePromiseDemo from "@/components/UsePromisesDemo";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default async function Home() {
   const fetchUsersPromise = new Promise((resolve) =>
@@ -12,9 +13,11 @@ export default async function Home() {
   );
   return (
     <main>
-      <Suspense fallback={<p>Loading users...</p>}>
-        <UsePromiseDemo usersPromise={fetchUsersPromise} />
-      </Suspense>
+      <ErrorBoundary fallback={<p>Something went wrong!</p>}>
+        <Suspense fallback={<p>Loading users...</p>}>
+          <UsePromiseDemo usersPromise={fetchUsersPromise} />
+        </Suspense>
+      </ErrorBoundary>
     </main>
   );
 }
